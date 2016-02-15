@@ -9,13 +9,15 @@ module.exports = {
 
   attributes: {
 
-    pregunta : {
+    enunciado : {
     	type: 'string',
-    	size: 255,
+    	size: 45,
     	required: true
 	},
 
-    respuesta : { type: 'string',
+    tipo : { 
+        type: 'string',
+        enum: ['Ensayo', 'Emparejamiento','Numerica', 'Verdadeo/Falso', 'EleccionMultiple'],
     	size: 255,
     	required: true
     },
@@ -23,7 +25,23 @@ module.exports = {
     cuestionarios : {
         collection : 'cuestionario',
         via : 'preguntas'
+    },
+
+    opciones:{
+        collection:'opcion',
+        via:'pregunta'
+    },
+
+    respuestas:{
+        collection:'respuesta',
+        via:'pregunta'
+    },
+
+    getPregunta: function(){
+        return this.toJSON();
+    },
+
     }
-  }
-};
+  };
+
 

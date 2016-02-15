@@ -3,18 +3,18 @@
     "model":"pregunta",
     "items":[
     {
-        "pregunta": "Capital de España",
-        "respuesta": "Madrid",
+        "enunciado": "Capital de España",
+        "tipo": "EleccionMultiple",
         "id": 1
     },
     {
-        "pregunta": "Capital de Francia",
-        "respuesta": "Paris",
+        "enunciado": "Capital de Francia",
+        "tipo": "EleccionMultiple",
         "id": 2
     },
     {
-        "pregunta": "Capital de Italia",
-        "respuesta": "Roma",
+        "enunciado": "Capital de Italia",
+        "tipo": "EleccionMultiple",
         "id": 3
     }
 ]
@@ -25,13 +25,13 @@
       {
           "preguntas": [
               {
-                  "pregunta": "Capital de Francia",
-                  "respuesta": "Paris",
+                  "enunciado": "Capital de Francia",
+                  "tipo": "EleccionMultiple",
                   "id": 2
               },
               {
-                  "pregunta": "Capital de Italia",
-                  "respuesta": "Roma",
+                  "enunciado": "Capital de Italia",
+                  "tipo": "EleccionMultiple",
                   "id": 3
               }
           ],

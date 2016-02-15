@@ -25,6 +25,14 @@ module.exports = {
 			resultado = 'Correcto';
 		}
 		res.json(resultado);
-	} 
+	}, 
+
+	getPregunta: function(req, res, next){
+		Opcion.find({pregunta:req.pregunta.id}).populate('subopciones').populate('pregunta').then(function(opciones){
+			res.json(opciones);
+		})
+		
+	},
+	
 };
 
