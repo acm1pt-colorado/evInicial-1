@@ -28,8 +28,12 @@ module.exports = {
 	}, 
 
 	getPregunta: function(req, res, next){
-		Opcion.find({pregunta:req.pregunta.id}).populate('subopciones').populate('pregunta').then(function(opciones){
-			res.json(opciones);
+		Opcion.find({
+			pregunta:req.pregunta.id
+		}).populate('subopciones').then(function(opciones){
+			var ob = req.pregunta.toJSON();
+			ob['opciones'] = opciones;
+			res.json(ob);
 		})
 		
 	},
