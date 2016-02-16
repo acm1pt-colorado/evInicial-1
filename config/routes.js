@@ -50,7 +50,7 @@ module.exports.routes = {
     'PreguntaController.corregirRespuesta'
   ],
   
-  'GET r|^/pregunta/(\\d+)/mipregunta$|preguntaId' : [
+  'GET r|^/pregunta/(\\d+)$|preguntaId' : [
     'PreguntaController.load',
     'PreguntaController.getPregunta'
   ],
@@ -64,6 +64,12 @@ module.exports.routes = {
     'CuestionarioController.load',
     'GrupoController.load',
     'CuestionarioController.asociarGrupo'
+  ],
+
+  'POST r|^/cuestionario/(\\d+)/pregunta/(\\d+)/respuesta$|cuestionarioId,preguntaId' : [
+    'CuestionarioController.load',
+    'PreguntaController.load',
+    'RespuestaController.respuesta'
   ],
 
 
