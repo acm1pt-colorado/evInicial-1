@@ -69,24 +69,29 @@ module.exports = {
                         })  
                     })
                 }
+                break;
             // NUMERICA
             case: "Numerica":
                 comprobarNumerica: function(respuesta){
 
                 }
+                break;
             //VERDADERO/FALSO
             case: "Verdadero/Falso":
                 comprobarVerdaderoFalso: function(respuesta){
 
                 }
+                break;
             case: "Emparejamiento":
                 comprobarEmparejamiento: function(respuesta){
                     
                 }
+                break;
             case: "Ensayo":
                 comprobarEnsayo: function(respuesta){
                     
                 }
+                break;
         }
     }
 
