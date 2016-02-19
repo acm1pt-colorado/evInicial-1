@@ -25,7 +25,7 @@ module.exports = {
   	puntuacion:{
   		type:'int'
   	}
-
+  	
  
   }
 };

@@ -41,6 +41,55 @@ module.exports = {
         return this.toJSON();
     },
 
+    comprobarRespuesta: function(respuesta){
+        switch(this.tipo){
+            //ELECCION MULTIPLE
+            case: "EleccionMultiple":
+                comprobarEleccionMultiple: function(respuesta){
+                        Subopcion.findOne({
+                            where: {opcion: Number(respuesta), nombre: "fraccion"}
+                        }).then(function(subopcion){
+                            var puntuacion = subopcion.valor;
+                            var alumno = req.session;
+                            Subopcion.findOne({
+                                where: {opcion: Number(respuesta), nombre: "text"}
+                            }).then(function(subopcion){
+                            Alumno.findOne({
+                                where: {user: alumno.passport.user}
+                            }).then(function(alumno){
+                                if(alumno){
+                                    Respuesta.create({valor: subopcion.valor, puntuacion: puntuacion, alumno: alumno.id})
+                                    .exec(function createCB(err, created){
+                                        sails.log.verbose('Created respuesta : Valor: ' + created.valor +" Puntuacion : "+ created.puntuacion);
+                                    })
+                                }else{
+                                    sails.log.verbose("No estas autenticado como usuario Alumno");
+                                }
+                            })
+                        })  
+                    })
+                }
+            // NUMERICA
+            case: "Numerica":
+                comprobarNumerica: function(respuesta){
+
+                }
+            //VERDADERO/FALSO
+            case: "Verdadero/Falso":
+                comprobarVerdaderoFalso: function(respuesta){
+
+                }
+            case: "Emparejamiento":
+                comprobarEmparejamiento: function(respuesta){
+                    
+                }
+            case: "Ensayo":
+                comprobarEnsayo: function(respuesta){
+                    
+                }
+        }
+    }
+
   }
 };
 
