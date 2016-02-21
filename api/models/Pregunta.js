@@ -44,8 +44,27 @@ module.exports = {
     comprobarRespuesta: function(respuesta){
         switch(this.tipo){
             //ELECCION MULTIPLE
-            case: "EleccionMultiple":
-                comprobarEleccionMultiple: function(respuesta){
+            case "EleccionMultiple":
+                comprobarEleccionMultiple(respuesta);
+                break;
+            // NUMERICA
+            case "Numerica":
+                
+                break;
+            //VERDADERO/FALSO
+            case "Verdadero/Falso":
+                
+                break;
+            case "Emparejamiento":
+                
+                break;
+            case "Ensayo":
+                
+                break;
+        }
+    },
+
+        comprobarEleccionMultiple: function(respuesta){
                         Subopcion.findOne({
                             where: {opcion: Number(respuesta), nombre: "fraccion"}
                         }).then(function(subopcion){
@@ -69,31 +88,7 @@ module.exports = {
                         })  
                     })
                 }
-                break;
-            // NUMERICA
-            case: "Numerica":
-                comprobarNumerica: function(respuesta){
-
-                }
-                break;
-            //VERDADERO/FALSO
-            case: "Verdadero/Falso":
-                comprobarVerdaderoFalso: function(respuesta){
-
-                }
-                break;
-            case: "Emparejamiento":
-                comprobarEmparejamiento: function(respuesta){
-                    
-                }
-                break;
-            case: "Ensayo":
-                comprobarEnsayo: function(respuesta){
-                    
-                }
-                break;
-        }
-    }
+    
 
   }
 };
