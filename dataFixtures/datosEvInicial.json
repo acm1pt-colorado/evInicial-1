@@ -1,4 +1,5 @@
 [
+
   {
     "model":"pregunta",
     "items":[
@@ -20,6 +21,50 @@
 ]
   },
   {
+    "model":"opcion",
+    "items":[
+      {
+          "tipoOpcion": "EleccionMultiple",
+          "id": 1,
+          "pregunta" : 1
+      },
+      {
+          "tipo": "EleccionMultiple",
+          "id": 2,
+          "pregunta": 1
+      }
+    ]
+  },
+    {
+    "model":"subopcion",
+    "items":[
+      {
+          "nombre": "fraccion",
+          "valor": "100",
+          "id": 1,
+          "opcion": 1
+      },
+      {
+          "nombre": "text",
+          "valor": "Madrid",
+          "id": 2,
+          "opcion": 1
+      },
+      {
+          "nombre": "fraccion",
+          "valor": "EleccionMultiple",
+          "id": 1,
+          "opcion": 2
+      },
+      {
+          "nombre": "text",
+          "valor": "Francia",
+          "id": 2,
+          "opcion": 2 
+      }
+    ]
+  },
+    {
     "model":"cuestionario",
     "items":[
       {

@@ -41,11 +41,24 @@ module.exports = {
         return this.toJSON();
     },
 
-    comprobarRespuesta: function(respuesta){
+    comprobarRespuesta: function(respuesta, user, cuestionario, pregunta){
         switch(this.tipo){
             //ELECCION MULTIPLE
             case "EleccionMultiple":
-                comprobarEleccionMultiple(respuesta);
+                this.comprobarEleccionMultiple(respuesta, function cb(){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: "Correcto", puntuacion: 100, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
                 break;
             // NUMERICA
             case "Numerica":
@@ -62,34 +75,23 @@ module.exports = {
                 
                 break;
         }
+
     },
 
-        comprobarEleccionMultiple: function(respuesta){
-                        Subopcion.findOne({
-                            where: {opcion: Number(respuesta), nombre: "fraccion"}
-                        }).then(function(subopcion){
-                            var puntuacion = subopcion.valor;
-                            var alumno = req.session;
-                            Subopcion.findOne({
-                                where: {opcion: Number(respuesta), nombre: "text"}
-                            }).then(function(subopcion){
-                            Alumno.findOne({
-                                where: {user: alumno.passport.user}
-                            }).then(function(alumno){
-                                if(alumno){
-                                    Respuesta.create({valor: subopcion.valor, puntuacion: puntuacion, alumno: alumno.id})
-                                    .exec(function createCB(err, created){
-                                        sails.log.verbose('Created respuesta : Valor: ' + created.valor +" Puntuacion : "+ created.puntuacion);
-                                    })
-                                }else{
-                                    sails.log.verbose("No estas autenticado como usuario Alumno");
-                                }
-                            })
-                        })  
-                    })
-                }
+        comprobarEleccionMultiple: function(respuesta, cb){
+            Subopcion.findOne({
+                where: {opcion: Number(respuesta), nombre: "fraccion"}
+            }).then(function(subopcion){
+                var puntuacion = subopcion.valor;
+                Subopcion.findOne({
+                    where: {opcion: Number(respuesta), nombre: "text"}
+                }).then(function(subopcion){
+                    var texto = subopcion.valor;
+                    return cb(puntuacion, texto);
+                })  
+            })
+        },
     
-
   }
 };
 
