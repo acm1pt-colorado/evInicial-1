@@ -10,7 +10,7 @@
     },
     {
         "enunciado": "Capital de Francia",
-        "tipo": "EleccionMultiple",
+        "tipo": "VerdaderoFalso",
         "id": 2
     },
     {
@@ -32,6 +32,16 @@
           "tipo": "EleccionMultiple",
           "id": 2,
           "pregunta": 1
+      },
+      {
+          "tipo": "VerdaderoFalso",
+          "id": 3,
+          "pregunta": 2
+      },
+      {
+          "tipo": "VerdaderoFalso",
+          "id": 4,
+          "pregunta": 2
       }
     ]
   },
@@ -52,7 +62,7 @@
       },
       {
           "nombre": "fraccion",
-          "valor": "EleccionMultiple",
+          "valor": "0",
           "id": 3,
           "opcion": 1
       },
@@ -61,6 +71,30 @@
           "valor": "Francia",
           "id": 4,
           "opcion": 1
+      },
+      {
+          "nombre": "fraccion",
+          "valor": "100",
+          "id": 5,
+          "opcion": 3
+      },
+      {
+          "nombre": "text",
+          "valor": "true",
+          "id": 6,
+          "opcion": 3
+      },
+      {
+          "nombre": "fraccion",
+          "valor": "0",
+          "id": 7,
+          "opcion": 4
+      },
+      {
+          "nombre": "text",
+          "valor": "false",
+          "id": 8,
+          "opcion": 4
       }
     ]
   },

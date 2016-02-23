@@ -17,7 +17,7 @@ module.exports = {
 
     tipo : { 
         type: 'string',
-        enum: ['Ensayo', 'Emparejamiento','Numerica', 'Verdadeo/Falso', 'EleccionMultiple'],
+        enum: ['Ensayo', 'Emparejamiento','Numerica', 'VerdaderoFalso', 'EleccionMultiple'],
     	size: 255,
     	required: true
     },
@@ -60,24 +60,77 @@ module.exports = {
                     })
                 });
                 break;
-            // NUMERICA
-            case "Numerica":
-                
-                break;
             //VERDADERO/FALSO
-            case "Verdadero/Falso":
-                
+            case "VerdaderoFalso":
+                this.comprobarTrueFalse(respuesta, function cb(puntuacion, texto){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
                 break;
+            //Numerica
+            case "Numerica":
+                this.comprobarNumerica(respuesta, function cb(puntuacion, texto){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
+                break;
+            //Emparejamiento/Matmaching
             case "Emparejamiento":
-                
+                this.comprobarEmparejamiento(respuesta, function cb(puntuacion, texto){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
                 break;
             case "Ensayo":
-                
+                this.comprobarEnsayo(respuesta, function cb(puntuacion, texto){
+                    Alumno.findOne({
+                        where: {user: user}
+                    }).then(function(alumno){
+                        if(alumno){
+                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            .exec(function createCB(err, created){
+                                res.json(created);
+                            })
+                        }else{
+                            sails.log.verbose("No estas autenticado como usuario Alumno");
+                        }
+                    })
+                });
                 break;
         }
 
     },
-
+    // FUNCION ELECCION MULTIPLE 
         comprobarEleccionMultiple: function(respuesta, cb){
             Subopcion.findOne({
                 where: {opcion: Number(respuesta), nombre: "fraccion"}
@@ -91,8 +144,107 @@ module.exports = {
                 })  
             })
         },
-    
-  }
+
+
+        //FUNCION TRUE-FALSE
+        comprobarTrueFalse: function(respuesta, cb) {
+            var puntos = 0;
+            var valorRespuesta = 0;
+            Opcion.findOne({
+                where: { id: Number(respuesta)}
+            }).populate('subopciones').then(function(misOpciones){
+                /*sails.log.verbose(misOpciones.subopcions[0]);*/
+                misOpciones.subopciones.forEach(function(subopcion){
+                    sails.log.verbose(subopcion);
+                    if(subopcion.nombre === 'fraccion'){
+                        puntos= subopcion.valor;
+                    }
+                    if(subopcion.nombre === 'text'){
+                        valorRespuesta= subopcion.valor;
+                    }
+
+                    });
+                    cb(puntos, valorRespuesta);
+                })
+        },
+
+        //FUNCION NUMERICA
+        comprobarNumerica: function(respuesta, cb) {
+            var guardavalor1;
+            var guardavalor2;
+            Opcion.findOne({
+                where: { id: Number(respuestaRec) }
+            }).populate('subopciones').then(function(opcion){
+                    //console.log(opcion.subopciones); 
+                opcion.subopciones.forEach(function(subopcion){
+                    //De opcion entro a subopciones y con el forEach recorro en subopciones una subopcion
+                    if(subopcion.nombre=='fraccion'){
+                        guardavalor1=subopcion.valor; //guardo el valor de fraccion
+                        //sails.log.verbose(guardavalor1);
+                    }
+                    if(subopcion.nombre=='text'){
+                        guardavalor2=subopcion.valor; //guardo el valor de texto
+                        //sails.log.verbose(guardavalor2);
+                    }
+                })
+
+                cb(guardavalor1, guardavalor2);
+
+            })
+        },
+
+        //EMPAREJAMIENTO
+        coprobarEmparejamiento: function(respuesta, cb) {
+            Incremento = 0;
+            Puntos = 0;
+
+
+            // Cliente envia ID de la 'subquestion' y el ID de la subopcion 'answer'.
+
+            Opcion.find().where({ pregunta: req.pregunta.id, tipoOpcion: 'subquestion' }).populate('subopciones')
+                .then(function(opciones){
+                    
+                    Puntos = 0;
+                    Incremento = Math.floor(100 / opciones.length);
+
+                    for ( i = 0 ; i < respuesta.length ; i += 2 ) {
+                        for ( n = 0 ; n < opciones.length ; n++ ) {
+                            if ( respuesta[i] == opciones[n].subopciones[0].valor && 
+                                 respuesta[i+1] == opciones[n].subopciones[1].valor ) {
+                                
+                                Puntos += Incremento;
+                            }
+                        }
+                    }
+            })
+                cb(Puntos, respuesta);
+        },
+
+        //ENSAYO
+        comprobarEnsayo: function(respuesta, cb) {
+            var valor1;
+            var valor2;
+            Opcion.findOne({
+                where: { id: Number(respuesta) }
+            }).populate('subopciones').then(function(opcion){
+                    
+
+                opcion.subopciones.forEach(function(subopcion){
+                    
+                    if(subopcion.nombre=='fraccion'){
+                        valor1=subopcion.valor; 
+                        
+                    }
+                    if(subopcion.nombre=='text'){
+                        valor2=subopcion.valor; 
+                        
+                    }
+                    });
+
+                cb(valor1, valor2);
+            })
+        }
+    }
 };
 
 
