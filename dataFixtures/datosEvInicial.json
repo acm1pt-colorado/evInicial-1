@@ -53,14 +53,14 @@
       {
           "nombre": "fraccion",
           "valor": "EleccionMultiple",
-          "id": 1,
-          "opcion": 2
+          "id": 3,
+          "opcion": 1
       },
       {
           "nombre": "text",
           "valor": "Francia",
-          "id": 2,
-          "opcion": 2 
+          "id": 4,
+          "opcion": 1
       }
     ]
   },

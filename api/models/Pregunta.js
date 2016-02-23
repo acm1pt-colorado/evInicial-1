@@ -41,16 +41,16 @@ module.exports = {
         return this.toJSON();
     },
 
-    comprobarRespuesta: function(respuesta, user, cuestionario, pregunta){
+    comprobarRespuesta: function(respuesta, user, cuestionario, pregunta, res){
         switch(this.tipo){
             //ELECCION MULTIPLE
             case "EleccionMultiple":
-                this.comprobarEleccionMultiple(respuesta, function cb(){
+                this.comprobarEleccionMultiple(respuesta, function cb(puntuacion, texto){
                     Alumno.findOne({
                         where: {user: user}
                     }).then(function(alumno){
                         if(alumno){
-                            Respuesta.create({valor: "Correcto", puntuacion: 100, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                             .exec(function createCB(err, created){
                                 res.json(created);
                             })
@@ -87,7 +87,7 @@ module.exports = {
                     where: {opcion: Number(respuesta), nombre: "text"}
                 }).then(function(subopcion){
                     var texto = subopcion.valor;
-                    return cb(puntuacion, texto);
+                    cb(puntuacion, texto);
                 })  
             })
         },

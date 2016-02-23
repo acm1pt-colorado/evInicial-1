@@ -37,6 +37,15 @@ module.exports = {
 		console.log(req.cuestionario.id + ' - ' + req.cuestionario.alumnos)
 		req.cuestionario.asociarGrupo(req.grupo);
 		res.json(req.cuestionario);
+	},
+
+	findOne: function(req, res, next) {
+		Cuestionario.findOne(req.params.id).populate('preguntas')
+			.then(function(cuestionario){
+			cuestionario.aJSON(function(cuestionarioJSON) {
+				res.json(cuestionarioJSON);
+			});			
+		});
 	}
 
 };
