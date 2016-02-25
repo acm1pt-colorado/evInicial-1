@@ -24,22 +24,22 @@
     "model":"opcion",
     "items":[
       {
-          "tipoOpcion": "EleccionMultiple",
+          "tipoOpcion": "answer",
           "id": 1,
           "pregunta" : 1
       },
       {
-          "tipo": "EleccionMultiple",
+          "tipoOpcion": "answer",
           "id": 2,
           "pregunta": 1
       },
       {
-          "tipo": "VerdaderoFalso",
+          "tipoOpcion": "answer",
           "id": 3,
           "pregunta": 2
       },
       {
-          "tipo": "VerdaderoFalso",
+          "tipoOpcion": "answer",
           "id": 4,
           "pregunta": 2
       }
@@ -64,13 +64,13 @@
           "nombre": "fraccion",
           "valor": "0",
           "id": 3,
-          "opcion": 1
+          "opcion": 2
       },
       {
           "nombre": "text",
           "valor": "Francia",
           "id": 4,
-          "opcion": 1
+          "opcion": 2
       },
       {
           "nombre": "fraccion",

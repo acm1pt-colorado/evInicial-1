@@ -41,93 +41,68 @@ module.exports = {
         return this.toJSON();
     },
 
-    comprobarRespuesta: function(respuesta, user, cuestionario, pregunta, res){
-        switch(this.tipo){
-            //ELECCION MULTIPLE
-            case "EleccionMultiple":
-                this.comprobarEleccionMultiple(respuesta, function cb(puntuacion, texto){
-                    Alumno.findOne({
-                        where: {user: user}
-                    }).then(function(alumno){
-                        if(alumno){
-                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                            .exec(function createCB(err, created){
-                                res.json(created);
-                            })
-                        }else{
-                            sails.log.verbose("No estas autenticado como usuario Alumno");
-                        }
-                    })
-                });
-                break;
-            //VERDADERO/FALSO
-            case "VerdaderoFalso":
-                this.comprobarTrueFalse(respuesta, function cb(puntuacion, texto){
-                    Alumno.findOne({
-                        where: {user: user}
-                    }).then(function(alumno){
-                        if(alumno){
-                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                            .exec(function createCB(err, created){
-                                res.json(created);
-                            })
-                        }else{
-                            sails.log.verbose("No estas autenticado como usuario Alumno");
-                        }
-                    })
-                });
-                break;
-            //Numerica
-            case "Numerica":
-                this.comprobarNumerica(respuesta, function cb(puntuacion, texto){
-                    Alumno.findOne({
-                        where: {user: user}
-                    }).then(function(alumno){
-                        if(alumno){
-                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                            .exec(function createCB(err, created){
-                                res.json(created);
-                            })
-                        }else{
-                            sails.log.verbose("No estas autenticado como usuario Alumno");
-                        }
-                    })
-                });
-                break;
-            //Emparejamiento/Matmaching
-            case "Emparejamiento":
-                this.comprobarEmparejamiento(respuesta, function cb(puntuacion, texto){
-                    Alumno.findOne({
-                        where: {user: user}
-                    }).then(function(alumno){
-                        if(alumno){
-                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                            .exec(function createCB(err, created){
-                                res.json(created);
-                            })
-                        }else{
-                            sails.log.verbose("No estas autenticado como usuario Alumno");
-                        }
-                    })
-                });
-                break;
-            case "Ensayo":
-                this.comprobarEnsayo(respuesta, function cb(puntuacion, texto){
-                    Alumno.findOne({
-                        where: {user: user}
-                    }).then(function(alumno){
-                        if(alumno){
-                            Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
-                            .exec(function createCB(err, created){
-                                res.json(created);
-                            })
-                        }else{
-                            sails.log.verbose("No estas autenticado como usuario Alumno");
-                        }
-                    })
-                });
-                break;
-        }
+    comprobarRespuesta: function(respuesta, user, cuestionario, pregunta, cb){
+        Alumno.findOne({
+            where: {user: user}
+        }).then(function(alumno){
+            if(alumno){
+                switch(this.tipo){
+                //ELECCION MULTIPLE
+                case "EleccionMultiple":
+                    this.comprobarEleccionMultiple(respuesta, function cb(puntuacion, texto){
+                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                        .exec(function createCB(err, created){
+                            sails.log.verbose(err);
+                            sails.log.verbose(created, puntuacion, texto);
+                            cb(created);
+                        })
+                    });
+                    break;
+                //VERDADERO/FALSO
+                case "VerdaderoFalso":
+                    this.comprobarTrueFalse(respuesta, function cb(puntuacion, texto){
+                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                        .exec(function createCB(err, created){
+                            //sails.log.verbose(err);
+                            return created;
+                        })
+                    });
+                    break;
+                //Numerica
+                case "Numerica":
+                    this.comprobarNumerica(respuesta, function cb(puntuacion, texto){
+                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                        .exec(function createCB(err, created){
+                            //sails.log.verbose(err);
+                            return created;
+                        })
+                    });
+                    break;
+                //Emparejamiento/Matching
+                case "Emparejamiento":
+                    this.comprobarEmparejamiento(respuesta, function cb(puntuacion, texto){
+                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                        .exec(function createCB(err, created){
+                            //sails.log.verbose(err);
+                            return created;
+                        })
+                    });
+                    break;
+                case "Ensayo":
+                    this.comprobarEnsayo(respuesta, function cb(puntuacion, texto){
+                        Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
+                        .exec(function createCB(err, created){
+                            sails.log.verbose(err);
+                            return created;
+                        })
+                    });
+                    break;
+            }
+                
+            }else{
+                sails.log.verbose("No estas autenticado como usuario Alumno");
+            }
+        }.bind(this))
 
     },
     // FUNCION ELECCION MULTIPLE 
