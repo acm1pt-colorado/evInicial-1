@@ -49,51 +49,50 @@ module.exports = {
                 switch(this.tipo){
                 //ELECCION MULTIPLE
                 case "EleccionMultiple":
-                    this.comprobarEleccionMultiple(respuesta, function cb(puntuacion, texto){
+                    this.comprobarEleccionMultiple(respuesta, function (puntuacion, texto){
                         Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                         .exec(function createCB(err, created){
-                            sails.log.verbose(err);
-                            sails.log.verbose(created, puntuacion, texto);
+                            sails.log.verbose(created);
                             cb(created);
                         })
                     });
                     break;
                 //VERDADERO/FALSO
                 case "VerdaderoFalso":
-                    this.comprobarTrueFalse(respuesta, function cb(puntuacion, texto){
+                    this.comprobarTrueFalse(respuesta, function (puntuacion, texto){
                         Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                         .exec(function createCB(err, created){
                             //sails.log.verbose(err);
-                            return created;
+                            cb(created);
                         })
                     });
                     break;
                 //Numerica
                 case "Numerica":
-                    this.comprobarNumerica(respuesta, function cb(puntuacion, texto){
+                    this.comprobarNumerica(respuesta, function (puntuacion, texto){
                         Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                         .exec(function createCB(err, created){
                             //sails.log.verbose(err);
-                            return created;
+                            cb(created);
                         })
                     });
                     break;
                 //Emparejamiento/Matching
                 case "Emparejamiento":
-                    this.comprobarEmparejamiento(respuesta, function cb(puntuacion, texto){
+                    this.comprobarEmparejamiento(respuesta, function (puntuacion, texto){
                         Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                         .exec(function createCB(err, created){
                             //sails.log.verbose(err);
-                            return created;
+                            cb(created);
                         })
                     });
                     break;
                 case "Ensayo":
-                    this.comprobarEnsayo(respuesta, function cb(puntuacion, texto){
+                    this.comprobarEnsayo(respuesta, function (puntuacion, texto){
                         Respuesta.create({valor: texto, puntuacion: puntuacion, cuestionario: cuestionario, pregunta: pregunta, alumno: alumno.id})
                         .exec(function createCB(err, created){
-                            sails.log.verbose(err);
-                            return created;
+                            //sails.log.verbose(err);
+                            cb(created);
                         })
                     });
                     break;
@@ -169,14 +168,15 @@ module.exports = {
         },
 
         //EMPAREJAMIENTO
-        coprobarEmparejamiento: function(respuesta, cb) {
+        comprobarEmparejamiento: function(respuesta, cb) {
+            respuesta.split($$);
             Incremento = 0;
             Puntos = 0;
 
 
             // Cliente envia ID de la 'subquestion' y el ID de la subopcion 'answer'.
 
-            Opcion.find().where({ pregunta: req.pregunta.id, tipoOpcion: 'subquestion' }).populate('subopciones')
+            Opcion.find().where({ pregunta: this.id, tipoOpcion: 'subquestion' }).populate('subopciones')
                 .then(function(opciones){
                     
                     Puntos = 0;
