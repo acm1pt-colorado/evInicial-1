@@ -41,6 +41,14 @@ module.exports = {
         return this.toJSON();
     },
 
+    aJSON: function(){
+        Opcion.find({
+            where: {pregunta: this.id}
+        }).populate('subopciones').then(function(opciones){
+            return opciones;
+        });
+    },
+
     comprobarRespuesta: function(respuesta, user, cuestionario, pregunta, cb){
         Alumno.findOne({
             where: {user: user}

@@ -22,6 +22,27 @@ module.exports = {
     	collection : 'alumno',
     	via : 'cuestionarios'
     },
+    
+      aJSON: function(cb) {
+
+      var preguntasJSON = [];
+      var cuestionarioJSON = this.toJSON();
+
+      this.preguntas.forEach(function(pregunta) {
+          preguntasJSON.push(pregunta.aJSON());
+      });
+
+      Promise.all(preguntasJSON).then(function(opciones) {
+        
+        preguntasJSON.forEach(function(opcionesPreguntas, index) {
+          cuestionarioJSON.preguntas[index].opciones = opcionesPreguntas;
+        });
+
+        cb(cuestionarioJSON);
+
+      });
+  },
+
 
     duplicar: function (cb) {
 	    cuestionarioJSON = this.toJSON();
@@ -48,25 +69,6 @@ module.exports = {
     }
   },
 
-  aJSON: function(cb) {
-
-      var preguntasJSON = [];
-      var cuestionarioJSON = this.toJSON();
-
-      this.preguntas.forEach(function(pregunta) {
-          preguntasJSON.push(pregunta.aJSON());
-      });
-
-      Promise.all(preguntasJSON).then(function(opciones) {
-        
-        preguntasJSON.forEach(function(opcionesPreguntas, index) {
-          cuestionarioJSON.preguntas[index].opciones = opcionesPreguntas;
-        });
-
-        cb(cuestionarioJSON);
-
-      });
-  },
 
   duplicar: function (cuestionario, cb) {
 
