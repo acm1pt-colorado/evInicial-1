@@ -74,6 +74,7 @@ module.exports.policies = {
 
   RespuestaController: {
     'respuesta': ['sessionAuth','isAlumno']
-  }
+  },
+  
 
 };

@@ -17,6 +17,11 @@
         "enunciado": "Capital de Italia",
         "tipo": "EleccionMultiple",
         "id": 3
+    },
+    {
+        "enunciado": "Capital de Italia",
+        "tipo": "Emparejamiento",
+        "id": 4
     }
 ]
   },
@@ -42,7 +47,18 @@
           "tipoOpcion": "answer",
           "id": 4,
           "pregunta": 2
+      },
+      {
+          "tipoOpcion": "subquestion",
+          "id": 5,
+          "pregunta": 4
+      },
+      {
+          "tipoOpcion": "subquestion",
+          "id": 6,
+          "pregunta": 4
       }
+
     ]
   },
     {
@@ -95,6 +111,30 @@
           "valor": "false",
           "id": 8,
           "opcion": 4
+      },
+      {
+          "nombre": "text",
+          "valor": "Pregunta 1",
+          "id": 9,
+          "opcion": 5
+      },
+      {
+          "nombre": "answer",
+          "valor": "Respuesta 1",
+          "id": 10,
+          "opcion": 5
+      },
+      {
+          "nombre": "text",
+          "valor": "Pregunta 2",
+          "id": 11,
+          "opcion": 6
+      },
+      {
+          "nombre": "answer",
+          "valor": "Respuesta 2",
+          "id": 12,
+          "opcion": 6
       }
     ]
   },
@@ -234,7 +274,7 @@
       {
           "apellidos": "Profesor Apellidos",
           "nombre": "Profesor Nombre",
-          "email": "profesor@murciaeduca.es",
+          "email": "profesor@alu.murciaeduca.es",
           "id": 1
       }
     ]
